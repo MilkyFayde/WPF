@@ -1,0 +1,22 @@
+﻿<Window x:Class="AdoNet2.AddPhoneWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdoNet2"
+        mc:Ignorable="d"
+        Title="Add Phone" Height="207" Width="395" WindowStartupLocation="CenterScreen" KeyDown="Window_KeyDown">
+    <Grid>
+        <TextBox Name="textBox1" HorizontalAlignment="Left" Height="23" Margin="11,34,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="167" FontSize="14" MaxLength="15"/>
+        <Label Content="Enter mode:" HorizontalAlignment="Left" Margin="11,0,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <TextBox Name="textBox2" HorizontalAlignment="Left" Height="23" Margin="11,94,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="167" FontSize="14" MaxLength="8" TextChanged="digitTextBox_TextChanged" Text="0"/>
+        <Label Content="Enter price:" HorizontalAlignment="Left" Margin="11,60,0,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.418,0.552"/>
+        <Button Content="Ok" HorizontalAlignment="Left" Margin="11,0,0,19" Width="75" FontSize="14" Click="Ok_Click" Height="23" VerticalAlignment="Bottom"/>
+        <Button Content="Back" Margin="103,0,0,19" FontSize="14" HorizontalAlignment="Left" Width="75" Click="Button_Click" Height="23" VerticalAlignment="Bottom"/>
+        <ComboBox Name="comboBox" HorizontalAlignment="Left" Margin="196,34,0,0" VerticalAlignment="Top" Width="167" FontSize="14" Loaded="comboBox_Loaded"/>
+        <Label Content="Select Manufacturer:" HorizontalAlignment="Left" Margin="196,0,0,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="2.353,0.414"/>
+        <TextBox Name="textBox3" HorizontalAlignment="Left" Height="23" Margin="196,94,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="167" FontSize="14" MaxLength="8" TextChanged="digitTextBox_TextChanged" Text="0"/>
+        <Label Content="Enter weight:" HorizontalAlignment="Left" Margin="196,60,0,0" VerticalAlignment="Top" FontSize="14" RenderTransformOrigin="0.418,0.552"/>
+
+    </Grid>
+</Window>
