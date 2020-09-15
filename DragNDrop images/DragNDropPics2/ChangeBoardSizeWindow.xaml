@@ -1,0 +1,16 @@
+﻿<Window x:Class="Sapper.ChangeBoardSizeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sapper"
+        mc:Ignorable="d"
+        Title="Change Board Size" Height="122.904" Width="303.005" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="0,31,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="276" FontSize="16" TextChanged="TextBox_TextChanged" MaxLength="2" CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
+        <Button Content="Ok" HorizontalAlignment="Left" Margin="0,57,0,0" VerticalAlignment="Top" Width="75" FontSize="16" Click="Ok_Click"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="80,57,0,0" VerticalAlignment="Top" Width="75" FontSize="16" Click="Cancel_Click"/>
+        <Label Content="Enter new size for board (from 5 to 15):" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16"/>
+
+    </Grid>
+</Window>

@@ -1,0 +1,33 @@
+﻿<Window x:Class="AdoNet1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdoNet1"
+        mc:Ignorable="d"
+        Title="Reader" Height="450" Width="869.13" ResizeMode="NoResize" KeyDown="Window_KeyDown">
+    <Grid>
+        <ListBox Name="listBox1" HorizontalAlignment="Left" Margin="10,10,0,10" Width="335"/>
+        <Button Content="Read Verb Words" HorizontalAlignment="Left" Margin="366,97,0,0" VerticalAlignment="Top" Width="178" Click="verbWordsButton_Click_1" Height="90" FontSize="16" Background="#FFB5FFB8"/>
+        <Button Content="Read Adjective Words" HorizontalAlignment="Left" Margin="587,97,0,0" VerticalAlignment="Top" Width="178" Height="90" Click="adjectiveWordsButton_Click" FontSize="16" Background="#FFB5FFB8"/>
+        <TextBox Name ="pathTextBox" Height="29" Margin="366,49,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" FontSize="16"/>
+        <TextBlock HorizontalAlignment="Left" Margin="371,10,0,0" TextWrapping="Wrap" Text="Enter folder path:" VerticalAlignment="Top" FontSize="20"/>
+        <Button Content="About" Margin="615,365,137,10" Click="aboutButton_Click"/>
+        <Button HorizontalAlignment="Left" Margin="587,221,0,0" VerticalAlignment="Top" Width="178" Click="clearAdjectiveButton_Click" FontSize="16" Height="50" Background="#FFFFD2D2">
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Clear Adjective Word table"/>
+        </Button>
+        <Button HorizontalAlignment="Left" Margin="366,221,0,0" VerticalAlignment="Top" Width="178" Click="clearVerbButton_Click" FontSize="16" Height="50" Background="#FFFFD2D2">
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Clear Verb Word table"/>
+        </Button>
+        <Button Content="Exit" Margin="742,365,10,10" Click="Button_Click"/>
+        <Button HorizontalAlignment="Left" Margin="366,294,0,0" VerticalAlignment="Top" Width="178" Click="createVerbButton_Click" FontSize="16" Height="50" Background="#FFD2E0FF">
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Cleate Verb Word table"/>
+        </Button>
+        <Button HorizontalAlignment="Left" Margin="587,294,0,0" VerticalAlignment="Top" Width="178" Click="createAdjectiveButton_Click" FontSize="16" Height="50" Background="#FFD2E0FF">
+            <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Cleate Adjective Word table"/>
+        </Button>
+
+
+
+    </Grid>
+</Window>

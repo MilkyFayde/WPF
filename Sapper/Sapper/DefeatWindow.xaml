@@ -1,0 +1,16 @@
+﻿<Window x:Class="Sapper.DefeatWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sapper"
+        mc:Ignorable="d"
+        Title="Defeat" Height="450.0" Width="450.0" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Image HorizontalAlignment="Left" Height="424" Margin="0,10,0,0" VerticalAlignment="Top" Width="445" Source="lose.png" MouseDown="Image_MouseDown" />
+
+    </Grid>
+</Window>

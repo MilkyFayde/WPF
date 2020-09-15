@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragNDropPics", "DragNDropPics\DragNDropPics.csproj", "{C5D14F4E-7FB4-455C-9300-0E6D34E12455}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragNDropPics2", "DragNDropPics2\DragNDropPics2.csproj", "{C12C592D-6B9B-4A04-903B-F7E63BDCD026}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5D14F4E-7FB4-455C-9300-0E6D34E12455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5D14F4E-7FB4-455C-9300-0E6D34E12455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5D14F4E-7FB4-455C-9300-0E6D34E12455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5D14F4E-7FB4-455C-9300-0E6D34E12455}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C12C592D-6B9B-4A04-903B-F7E63BDCD026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C12C592D-6B9B-4A04-903B-F7E63BDCD026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C12C592D-6B9B-4A04-903B-F7E63BDCD026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C12C592D-6B9B-4A04-903B-F7E63BDCD026}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8CFA9A1B-7DE3-4948-80F0-0C2994270232}
+	EndGlobalSection
+EndGlobal
