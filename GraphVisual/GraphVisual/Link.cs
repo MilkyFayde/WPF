@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace GraphVisual
 {
-    public class Link
+    public class Link : IToolTip
     {
         public string Title { get; private set; }
         public int Id { get; private set; }
@@ -18,6 +18,7 @@ namespace GraphVisual
         public Vertex To { get; private set; }
         public Point PointFrom { get; set; }
         public Point PointTo { get; set; }
+        public GraphToolTip<Link> toolTip { get; set; }
 
         public Link(int id, string title, int weight, Vertex from, Vertex to, double figureWidth, double figureHeight)
         {
@@ -29,6 +30,8 @@ namespace GraphVisual
 
             PointFrom = new Point(from.VertexPoint.X + figureWidth / 2, from.VertexPoint.Y + figureHeight / 2);
             PointTo = new Point(to.VertexPoint.X + figureWidth / 2, to.VertexPoint.Y + figureHeight / 2);
+
+            toolTip = new GraphToolTip<Link>(this);
         } // Link
         public Link(int id, string title, int weight, Vertex from, Vertex to, Point pointFrom, Point pointTo)
         {
@@ -40,6 +43,7 @@ namespace GraphVisual
 
             PointFrom = pointFrom;
             PointTo = pointTo;
+            toolTip = new GraphToolTip<Link>(this);
         } // Link
         public void Save(XmlWriter writer)
         {
@@ -64,6 +68,8 @@ namespace GraphVisual
         {
             PointTo = point;
         }
+
+        public string GetToolTip()=>  $"Link name: {Title}\nWeight: {Weight}\nFrom \"{From.Title}\" To \"{To.Title}\"";
     } // class Link
 
     public class TempLink

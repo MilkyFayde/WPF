@@ -13,8 +13,8 @@
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="273,153,0,0" VerticalAlignment="Top" Width="75" Click="Cancel_Click" FontSize="14"/>
         <Label Content="Enter Link Weight (from 0 to 999):" HorizontalAlignment="Left" Margin="187,77,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.211,-0.077" Width="239" FontSize="14"/>
         <TextBox x:Name="textBox2" HorizontalAlignment="Left" Height="23" Margin="187,111,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="164" FontSize="14" TextChanged="textBox2_TextChanged" MaxLength="3"/>
-        <ComboBox Name="comboBox1" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="161" Loaded="ComboBox_Loaded" FontSize="14"/>
-        <ComboBox x:Name="comboBox2" HorizontalAlignment="Left" Margin="187,44,0,0" VerticalAlignment="Top" Width="161" Loaded="ComboBox_Loaded" FontSize="14"/>
+        <ComboBox Name="comboBox1" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="161" Loaded="ComboBox1_Loaded" FontSize="14"/>
+        <ComboBox x:Name="comboBox2" HorizontalAlignment="Left" Margin="187,44,0,0" VerticalAlignment="Top" Width="161" Loaded="ComboBox2_Loaded" FontSize="14"/>
         <Label Content="Link from:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.211,-0.077" Width="226" FontSize="14"/>
         <Label Content="Link to:" HorizontalAlignment="Left" Margin="191,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.211,-0.077" Width="226" FontSize="14"/>
     </Grid>

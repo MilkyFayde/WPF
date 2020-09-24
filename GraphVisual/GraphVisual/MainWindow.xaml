@@ -6,6 +6,29 @@
         xmlns:local="clr-namespace:GraphVisual"
         mc:Ignorable="d"
         Title="Graph Visualizer" Height="600" Width="1000" KeyDown="Window_KeyDown">
+    <Window.Resources>
+        <Style x:Key="rectStyle1">
+            <Setter Property="Rectangle.Stroke" Value="Black" />
+            <Setter Property="Rectangle.Fill" Value="MediumPurple" />
+        </Style>
+
+        <Style x:Key="ellipseStyle1">
+            <Setter Property="Ellipse.Stroke" Value="Black" />
+            <Setter Property="Ellipse.Fill" Value="AntiqueWhite" />
+        </Style>
+        <Style x:Key="lineStyle1">
+            <Setter Property="Line.Stroke" Value="Red" />
+        </Style>
+        <Style x:Key="canavasStyle1">
+            <Setter Property="Canvas.Background" Value="White" />
+        </Style>
+
+        <Style TargetType="Ellipse" BasedOn="{StaticResource rectStyle1}"/>
+        <Style TargetType="Rectangle" BasedOn="{StaticResource ellipseStyle1}"/>
+        <Style TargetType="Line" BasedOn="{StaticResource lineStyle1}"/>
+        <Style TargetType="Canvas" BasedOn="{StaticResource canavasStyle1}"/>
+    </Window.Resources>
+
     <Grid>
         <Grid Panel.ZIndex="5" VerticalAlignment="Top" Height="28">
             <Menu HorizontalAlignment="Left" Height="28" VerticalAlignment="Top" Width="238" Background="{x:Null}">
@@ -17,6 +40,7 @@
                 </MenuItem>
                 <MenuItem FontSize="16" Header="Edit">
                     <MenuItem Header="Add Vertex (V)" Click="AddVertex_Click" ToolTip="Add new vertex"/>
+                    <MenuItem Header="Find Path (F)" Click="FindPath_Click" ToolTip="Find path between two vertices"/>
                     <MenuItem Header="Add Link (X)" Click="AddLink_Click" ToolTip="Add new link"/>
                     <MenuItem Header="Delete (Del)" Click="Delete_Click" ToolTip="Delete selected item"/>
                 </MenuItem>
@@ -29,7 +53,7 @@
                 </LinearGradientBrush>
             </Grid.Background>
         </Grid>
-            <Canvas Name="myCanvas" Margin="0,28,0,0" Background="White" Width="auto" Height="auto" MouseUp="myCanavas_MouseUp" MouseMove="myCanavas_MouseMove"/>
+        <Canvas Name="myCanvas" Margin="0,28,0,0" Width="auto" Height="auto" MouseUp="myCanavas_MouseUp" MouseMove="myCanavas_MouseMove"/>
 
 
 

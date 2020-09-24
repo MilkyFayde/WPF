@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,7 +13,7 @@ using Microsoft.SqlServer.Server;
 
 namespace GraphVisual
 {
-    public class Graph
+    public class Graph : IToolTip
     {
         public string Title { get; private set; }
         public int VertexId { get; private set; }
@@ -20,13 +21,15 @@ namespace GraphVisual
         public int LinkCount { get; private set; }
         public List<Vertex> Vertices { get; private set; } = new List<Vertex>();
         public Point GraphPoint { get; set; }
-
         public double FigureWidth { get; private set; }
         public double FigureHeight { get; private set; }
+        public GraphToolTip<Graph> toolTip { get; set; }
+
         public Graph(double figureWidth, double figureHeight)
         {
             FigureWidth = figureWidth;
             FigureHeight = figureHeight;
+            toolTip = new GraphToolTip<Graph>(this);
         }
         public Graph(string title, Point graphPoint, double figureWidth, double figureHeight)
         {
@@ -34,6 +37,7 @@ namespace GraphVisual
             GraphPoint = graphPoint;
             FigureWidth = figureWidth;
             FigureHeight = figureHeight;
+            toolTip = new GraphToolTip<Graph>(this);
         } // Graph
 
         public int GetVerticesCount() => Vertices.Count;
@@ -44,6 +48,7 @@ namespace GraphVisual
             LinkId = 0;
             LinkCount = 0;
             Vertices.Clear();
+            toolTip.ChangeToolTip(this);
         } // Clear
 
         public void AddVertex(string title, int weight, Point vertexPoint)
@@ -53,6 +58,7 @@ namespace GraphVisual
 
             Vertex vertex = new Vertex(VertexId++, title, weight, vertexPoint, FigureWidth, FigureHeight);
             Vertices.Add(vertex);
+            toolTip.ChangeToolTip(this);
         } // AddVertex
 
         public void AddLink(string title, int weight, string from, string to)
@@ -66,17 +72,19 @@ namespace GraphVisual
 
             Link link = new Link(LinkId++, title, weight, vertexFrom, vertexTo, FigureWidth, FigureHeight);
 
-            vertexFrom.Links.Add(link);
-            vertexTo.Links.Add(link);
+            vertexFrom.AddLink(link);
+            vertexTo.AddLink(link);
             LinkCount++;
+            toolTip.ChangeToolTip(this);
         } // AddLink
 
         public Link AddLink(string title, int weight, Vertex v1, Vertex v2)
         {
             Link link = new Link(LinkId++, title, weight, v1, v2, FigureWidth, FigureHeight);
-            v1.Links.Add(link);
-            v2.Links.Add(link);
+            v1.AddLink(link);
+            v2.AddLink(link);
             LinkCount++;
+            toolTip.ChangeToolTip(this);
             return link;
         } // AddLink
 
@@ -93,6 +101,7 @@ namespace GraphVisual
                 RemoveLinks(vertex); // remove all links related to this Vertex
             }
             Vertices.Remove(vertex);
+            toolTip.ChangeToolTip(this);
         } // RemoveVertex
 
         public void RemoveVertex(string title)
@@ -105,6 +114,7 @@ namespace GraphVisual
                 RemoveLinks(temp); // remove all links related to this Vertex
             }
             Vertices.Remove(temp);
+            toolTip.ChangeToolTip(this);
         } // RemoveVertex
         public void RemoveVertex(int id)
         {
@@ -116,18 +126,21 @@ namespace GraphVisual
                 RemoveLinks(temp); // remove all links related to this Vertex
             }
             Vertices.Remove(temp);
+            toolTip.ChangeToolTip(this);
         } // RemoveVertexByTitle
         void RemoveLinks(Vertex vertex)
         {
             for (int i = 0; i < Vertices.Count; i++)
                 Vertices[i].RemoveAllLinks(vertex); // remove all links by vertex
+            toolTip.ChangeToolTip(this);
         } // RemoveLinks
 
         public void RemoveLink(Link link)
         {
-            link.From.Links.Remove(link);
-            link.To.Links.Remove(link);
+            link.From.RemoveLink(link);
+            link.To.RemoveLink(link);
             LinkCount--;
+            toolTip.ChangeToolTip(this);
         }
 
         public void Save(string fileName)
@@ -175,6 +188,7 @@ namespace GraphVisual
             reader.Close();
 
             ConvertTempLinks(tempLinks);
+            toolTip.ChangeToolTip(this);
         } // Load
 
         void GetData(XmlReader reader, out string title, out int id, out int weight)
@@ -254,8 +268,8 @@ namespace GraphVisual
                 from = FindVertex(tempLink.From);
                 to = FindVertex(tempLink.To);
                 Link link = tempLink.ToLink(from, to);
-                from.Links.Add(link);
-                to.Links.Add(link);
+                from.AddLink(link);
+                to.AddLink(link);
             }
             LinkCount = tempLinks.Count;
         } // ConvertTempLinks
@@ -276,6 +290,97 @@ namespace GraphVisual
             for (int i = 0; i < Vertices.Count; i++)
                 yield return Vertices[i];
         } // GetEnumerator
+
+        public List<Vertex> Pathfinder(Vertex from, Vertex to)
+        {
+            Func<Vertex, Vertex, List<Vertex>> pathfinder;
+
+                pathfinder = DijkstraSearch;
+          
+            return pathfinder(from, to);
+        } // Pathfinder
+
+        public List<Vertex> DijkstraSearch(Vertex from, Vertex to)
+        {
+            foreach (var vertex in Vertices)
+                vertex.IsVisited = false;
+
+            Dictionary<Vertex, Vertex> parentMap = new Dictionary<Vertex, Vertex>();
+            PriorityQueue<Vertex, int> priorityQueue = new PriorityQueue<Vertex, int>();
+
+            Dictionary<Vertex, int> oldWeights =  InitializeWeight(from);
+
+            priorityQueue.Enqueue(from, from.Weight);
+
+            Vertex current;
+
+            while (priorityQueue.Count > 0)
+            {
+                current = priorityQueue.Dequeue();
+                if (!current.IsVisited)
+                {
+                    current.IsVisited = true;
+                    if (current.Equals(to)) break;
+                    foreach (var link in current.Links)
+                    {
+                        Vertex neighbor;
+                        if (current == link.To) neighbor = link.From;
+                        else neighbor = link.To;
+
+                        int newWeight = current.Weight + link.Weight;
+                        int neighborWeight = neighbor.Weight;
+
+                        if (newWeight < neighborWeight)
+                        {
+                            neighbor.Weight = newWeight;
+                            parentMap.Add(neighbor, current);
+                            int priority = newWeight;
+                            priorityQueue.Enqueue(neighbor, priority);
+                        } // if
+                    } // foreach
+                } // f (!current.IsVisited)
+            } // while
+
+            List<Vertex> path = ReconstructPath(parentMap, from, to);
+
+            foreach (var vertex in oldWeights)
+                vertex.Key.Weight = vertex.Value;
+
+            return path;
+        } // DijkstraSearch
+
+        public List<Vertex> ReconstructPath(Dictionary<Vertex, Vertex> parentMap, Vertex from, Vertex to)
+        {
+            List<Vertex> path = new List<Vertex>();
+            Vertex current = to;
+
+            while (current != from)
+            {
+                path.Add(current);
+                if (!parentMap.ContainsKey(current)) return null; // if path not exists
+                current = parentMap[current];
+            } // while
+
+            path.Add(from);
+            path.Reverse();
+            return path;
+        } // ReconstructPath
+
+        public Dictionary<Vertex, int> InitializeWeight(Vertex from)
+        {
+            Dictionary<Vertex, int> oldWeights = new Dictionary<Vertex, int>();
+
+            foreach (var vertex in Vertices)
+            {
+                oldWeights.Add(vertex, vertex.Weight);
+                vertex.Weight = int.MaxValue;
+            }
+
+            from.Weight = 0;
+            return oldWeights;
+        } // InitializeWeight
+
+        public string GetToolTip() => $"Graph name: {Title}\nVertices: {GetVerticesCount()}\nLinks: {LinkCount}";
     } // class Graph
 
 }

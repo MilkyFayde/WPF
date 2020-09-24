@@ -9,16 +9,18 @@ using System.Xml;
 
 namespace GraphVisual
 {
-    public class Vertex : Observable
+    public class Vertex : Observable, IToolTip
     {
         public string Title { get; set; }
         public int Id { get; private set; }
-        public int Weight { get; private set; }
+        public int Weight { get; set; }
         public List<Link> Links { get; private set; } = new List<Link>();
         public Point VertexPoint { get; private set; } // left top of Vertex on canvas
         IObserver observer = new VertexMove();
         public double FigureWidth { get; private set; }
         public double FigureHeight { get; private set; }
+        public GraphToolTip<Vertex> toolTip { get; set; }
+        public bool IsVisited { get; set; }
 
         public Vertex(int id, string title, int weight, Point vertexPoint, double figureWidth, double figureHeight)
         {
@@ -29,6 +31,7 @@ namespace GraphVisual
             FigureWidth = figureWidth;
             FigureHeight = figureHeight;
             AddObserver(observer.Move);
+            toolTip = new GraphToolTip<Vertex>(this);
         } // Vertex
 
         public bool IsLinkExists(Vertex v) =>
@@ -51,6 +54,7 @@ namespace GraphVisual
                 if (Links[i].Id == linkId)
                 {
                     Links.RemoveAt(i);
+                    toolTip.ChangeToolTip(this);
                     return true;
                 } // if
             } // for
@@ -75,7 +79,20 @@ namespace GraphVisual
                     i--;
                 } // if
             } // for
+            toolTip.ChangeToolTip(this);
         } // RemoveAllLinks
+
+        public void AddLink(Link link)
+        {
+            Links.Add(link);
+            toolTip.ChangeToolTip(this);
+        } // AddLink
+
+        public void RemoveLink(Link link)
+        {
+            Links.Remove(link);
+            toolTip.ChangeToolTip(this);
+        } // RemoveLink
 
         public void Save(XmlWriter writer)
         {
@@ -91,5 +108,7 @@ namespace GraphVisual
 
             writer.WriteEndElement();
         } // Save
+
+        public string GetToolTip() => $"Vertex name: {Title}\nWeight: {Weight}\nLinks: {GetLinksCount()}";
     } // class Vertex
 }

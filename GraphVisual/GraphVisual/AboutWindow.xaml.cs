@@ -25,12 +25,13 @@ namespace GraphVisual
             string str = "Graphs Visualizer.\n";
             string str1 = "1) Create or Open existing \"Graph\" via menu or hotkeys.\n";
             string str2 = "2) Add \"Vertices\" via menu or hotkeys.\n";
-            string str3 = "3) Add \"Links\" between \"Vertices\" via menu or hotkeys.\n";
+            string str3 = "3) Add \"Links\" between \"Vertices\" via menu, hotkeys or drag with mouse right click.\n";
             string str4 = "4) Click on \"Vertex\" to  select it. Drag it to move.\n";
-            string str5 = "5) Delete selected \"Graph\", \"Vertex\" or  \"Link\" via menu or hotkeys.\n";
-            string str6 = "5) Save created \"Graph\" via menu or hotkeys.\n";
+            string str5 = "4) Find shortest path betwwen vertices via menu or hotkeys.\n";
+            string str6 = "6) Delete selected \"Graph\", \"Vertex\" or  \"Link\" via menu or hotkeys.\n";
+            string str7 = "7) Save created \"Graph\" via menu or hotkeys.\n";
 
-            textBlock1.Text = $"{str}{str1}{str2}{str3}{str4}{str5}{str6}";
+            textBlock1.Text = $"{str}{str1}{str2}{str3}{str4}{str5}{str6}{str7}";
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)

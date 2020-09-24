@@ -28,10 +28,12 @@ namespace GraphVisual
         Dictionary<Link, Line> links = new Dictionary<Link, Line>();
         double figureWidth = 150;
         double figureHeight = 50;
+        Line tempLine;
 
         public MainWindow()
         {
             InitializeComponent();
+
 
             //graph = new Graph("1234", new Point((this.Width - figureWidth) / 2, 50), figureWidth, figureHeight);
             //graph.AddVertex("a", 5, new Point(0, 22));
@@ -47,14 +49,10 @@ namespace GraphVisual
         void DrawVertex(Point position, string title, Vertex vertex) => DrawFigure(new Ellipse(), position, title, vertex);
         void DrawFigure(Shape figure, Point position, string title, Vertex vertex)
         {
-            figure.Stroke = Brushes.Black;
-            if (figure is Ellipse) figure.Fill = Brushes.AntiqueWhite;
-            else figure.Fill = Brushes.MediumPurple;
             figure.HorizontalAlignment = HorizontalAlignment.Left;
             figure.VerticalAlignment = VerticalAlignment.Center;
             figure.Width = figureWidth;
             figure.Height = figureHeight;
-
 
             TextBlock text = new TextBlock();
             text.Text = title;
@@ -68,6 +66,7 @@ namespace GraphVisual
             grid.Children.Add(figure);
             grid.Children.Add(text);
             grid.MouseDown += Grid_MouseDown;
+            grid.MouseUp += Grid_MouseUp;
 
             Canvas.SetLeft(grid, position.X);
             Canvas.SetTop(grid, position.Y);
@@ -75,12 +74,23 @@ namespace GraphVisual
             grid.Height = figureHeight;
             grid.Width = figureWidth;
 
+            if (vertex != null)
+            {
+                figure.ToolTip = vertex.toolTip.toolTip;
+                text.ToolTip = vertex.toolTip.toolTip;
+            }
+            else
+            {
+                figure.ToolTip = graph.toolTip.toolTip;
+                text.ToolTip = graph.toolTip.toolTip;
+            }
+
             myCanvas.Children.Add(grid);
         } // DrawFigure
+
         void DrawLink(Link link)
         {
             Line line = new Line();
-            line.Stroke = Brushes.Red;
 
             line.X1 = link.PointFrom.X;
             line.X2 = link.PointTo.X;
@@ -91,6 +101,9 @@ namespace GraphVisual
             line.StrokeThickness = 5;
             line.MouseDown += Line_MouseDown;
             Canvas.SetZIndex(line, 0);
+
+            line.ToolTip = link.toolTip.toolTip;
+
 
             links.Add(link, line);
             myCanvas.Children.Add(line);
@@ -133,17 +146,66 @@ namespace GraphVisual
         {
             if (selectedElement != null) selectedElement.ClearValue(EffectProperty);
             selectedElement = (FrameworkElement)sender;
+            Canvas.SetZIndex(selectedElement, 10);
+            selectedElement.Effect = CreateShadow();
+
+            if (e.ChangedButton == MouseButton.Right)
+            {
+                tempLine = new Line();
+                Point coords = e.GetPosition(myCanvas);
+                tempLine.X1 = coords.X;
+                tempLine.Y1 = coords.Y;
+                tempLine.X2 = coords.X;
+                tempLine.Y2 = coords.Y;
+
+                tempLine.HorizontalAlignment = HorizontalAlignment.Left;
+                tempLine.VerticalAlignment = VerticalAlignment.Center;
+                tempLine.StrokeThickness = 5;
+                tempLine.MouseDown += Line_MouseDown;
+                Canvas.SetZIndex(tempLine, 0);
+
+                //links.Add(link, line);
+                myCanvas.Children.Add(tempLine);
+                return;
+            }
+
+
             isMoving = true;
             currentPoint = e.GetPosition(selectedElement);
 
-            Canvas.SetZIndex(selectedElement, 10);
-
-            selectedElement.Effect = CreateShadow();
-         
             e.Handled = true;
         } // Graph_MouseDown
+
+        private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (tempLine != null)
+            {
+                Grid grid1 = selectedElement as Grid;
+                Grid grid2 = sender as Grid;
+  
+                if (grid2.Children[0] is Ellipse && grid1 != grid2)
+                {
+                    TextBlock textBox1 = grid1.Children[1] as TextBlock;
+                    Vertex vertex1 = (Vertex)textBox1.DataContext;
+                    TextBlock textBox2 = grid2.Children[1] as TextBlock;
+                    Vertex vertex2 = (Vertex)textBox2.DataContext;
+
+                    CreateLinkWindow window = new CreateLinkWindow(CheckAndAddLink, graph, vertex1.Id, vertex2.Id);
+                    window.Owner = this;
+                    window.ShowDialog();
+                }
+                myCanvas.Children.Remove(tempLine);
+                tempLine = null;
+            }
+        } // Grid_MouseUp
+
         private void myCanavas_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            if (tempLine != null)
+            {
+                myCanvas.Children.Remove(tempLine);
+                tempLine = null;
+            }
             if (isMoving)
             {
                 //selectedElement.ClearValue(EffectProperty);
@@ -153,9 +215,16 @@ namespace GraphVisual
         } // myCanavas_MouseUp
         private void myCanavas_MouseMove(object sender, MouseEventArgs e)
         {
+            Point coords = e.GetPosition(myCanvas);
+            if (tempLine != null)
+            {
+                tempLine.X2 = coords.X;
+                tempLine.Y2 = coords.Y;
+                return;
+            }
+
             if (isMoving)
             {
-                Point coords = e.GetPosition(myCanvas);
                 coords.X -= currentPoint.X;
                 coords.Y -= currentPoint.Y;
                 Canvas.SetLeft(selectedElement, coords.X);
@@ -340,6 +409,9 @@ namespace GraphVisual
             else if (e.Key == Key.X)
                 AddLink_Click(null, null);
 
+            else if (e.Key == Key.F)
+                FindPath_Click(null, null);
+
             else if (e.Key == Key.N && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
                 CreateGraph_Click(null, null);
             else if (e.Key == Key.O && (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
@@ -391,6 +463,18 @@ namespace GraphVisual
             AboutWindow window = new AboutWindow();
             window.Owner = this;
             window.ShowDialog();
-        }
+        } // About_Click
+
+        private void FindPath_Click(object sender, RoutedEventArgs e)
+        {
+            if (graph == null)
+            {
+                MessageBox.Show("Graph is empty. Create it first.");
+                return;
+            }
+            VertexPathWindow window = new VertexPathWindow(graph);
+            window.Owner = this;
+            window.ShowDialog();
+        } // FindPath_Click
     }
 }

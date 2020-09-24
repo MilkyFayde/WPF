@@ -21,3 +21,5 @@ D:\2\less\Step\repos\DZ34\GraphVisual\obj\Debug\GraphVisual.csproj.GenerateResou
 D:\2\less\Step\repos\DZ34\GraphVisual\obj\Debug\GraphVisual.csproj.CoreCompileInputs.cache
 D:\2\less\Step\repos\DZ34\GraphVisual\obj\Debug\GraphVisual.exe
 D:\2\less\Step\repos\DZ34\GraphVisual\obj\Debug\GraphVisual.pdb
+D:\2\less\Step\repos\DZ34\GraphVisual\obj\Debug\VertexPathWindow.g.cs
+D:\2\less\Step\repos\DZ34\GraphVisual\obj\Debug\VertexPathWindow.baml

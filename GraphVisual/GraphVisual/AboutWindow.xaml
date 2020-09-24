@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
          xmlns:local="clr-namespace:GraphVisual"
         mc:Ignorable="d"
-        Title="About" Height="450" Width="418.023" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" KeyDown="Window_KeyDown">
+        Title="About" Height="473.547" Width="418.023" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" KeyDown="Window_KeyDown">
     <Grid>
         <TextBlock Name="textBlock1" HorizontalAlignment="Center" Margin="10,10,10,10" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="auto" Width="auto" FontSize="20"/>
         

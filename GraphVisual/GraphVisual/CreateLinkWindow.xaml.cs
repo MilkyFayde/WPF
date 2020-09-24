@@ -21,15 +21,27 @@ namespace GraphVisual
     {
         Func<string, int, int, int, bool> action;
         Graph graph;
+        int id1 = -1;
+        int id2 = -1;
         public CreateLinkWindow(Func<string, int, int, int, bool> action, Graph graph)
         {
             InitializeComponent();
             this.action = action;
             this.graph = graph;
         }
+
+        public CreateLinkWindow(Func<string, int, int, int, bool> action, Graph graph, int id1, int id2)
+        {
+            InitializeComponent();
+            this.action = action;
+            this.graph = graph;
+            this.id1 = id1;
+            this.id2 = id2;
+        }
+
         private void Ok_Click(object sender, RoutedEventArgs e)
         {
-            int id1 =  int.Parse(comboBox1.SelectedValue.ToString());
+            int id1 = int.Parse(comboBox1.SelectedValue.ToString());
             int id2 = int.Parse(comboBox2.SelectedValue.ToString());
 
             if (textBox.Text.Length == 0)
@@ -46,7 +58,7 @@ namespace GraphVisual
 
             if (!action.Invoke(textBox.Text, Size(), id1, id2))
             {
-                MessageBox.Show($"Link with from \"{comboBox1.Text}\" to \"{comboBox2.Text}\" already exists.");
+                MessageBox.Show($"Link from \"{comboBox1.Text}\" to \"{comboBox2.Text}\" already exists.");
                 return;
             }
 
@@ -54,6 +66,22 @@ namespace GraphVisual
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e) => this.Close();
+
+        void ChangeSelectedIndex(int id, ComboBox comboBox)
+        {
+            int Selected = -1;
+            int count = comboBox.Items.Count;
+            for (int i = 0; i <= count - 1; i++)
+            {
+                comboBox.SelectedIndex = i;
+                if ((int)(comboBox.SelectedValue) == id)
+                {
+                    Selected = i;
+                    break;
+                }
+            }
+            comboBox.SelectedIndex = Selected;
+        } // ChangeSelectedIndex
 
         private void textBox2_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -82,13 +110,24 @@ namespace GraphVisual
                 Close();
         } // Window_KeyDown
 
-        private void ComboBox_Loaded(object sender, RoutedEventArgs e)
+        private void ComboBox1_Loaded(object sender, RoutedEventArgs e)
         {
             var comboBox = sender as ComboBox;
             comboBox.ItemsSource = graph.Vertices;
             comboBox.DisplayMemberPath = "Title";
             comboBox.SelectedValuePath = "Id";
             comboBox.SelectedIndex = 0;
-        }
+            if (id1 >= 0) ChangeSelectedIndex(id1, comboBox);
+        } // ComboBox2_Loaded
+
+        private void ComboBox2_Loaded(object sender, RoutedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            comboBox.ItemsSource = graph.Vertices;
+            comboBox.DisplayMemberPath = "Title";
+            comboBox.SelectedValuePath = "Id";
+            comboBox.SelectedIndex = 0;
+            if (id2 >= 0) ChangeSelectedIndex(id2, comboBox);
+        } // ComboBox2_Loaded
     }
 }

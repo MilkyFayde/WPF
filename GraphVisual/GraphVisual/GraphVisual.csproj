@@ -36,13 +36,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -67,8 +69,13 @@
     <Compile Include="CreateVertexWindow.xaml.cs">
       <DependentUpon>CreateVertexWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GraphToolTip.cs" />
     <Compile Include="Observer.cs" />
+    <Compile Include="PriorityQueue.cs" />
     <Compile Include="Vertex.cs" />
+    <Compile Include="VertexPathWindow.xaml.cs">
+      <DependentUpon>VertexPathWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="AboutWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,6 +106,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="VertexPathWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
